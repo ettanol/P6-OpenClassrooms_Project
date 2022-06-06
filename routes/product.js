@@ -8,13 +8,15 @@ const { addSauce,
         updateSauce,
         deleteSauce,
         getOneSauce,
-        getAllSauces} = require('../controllers/product')
+        getAllSauces,
+        likeOneSauce} = require('../controllers/product')
 
 // sauce management
 router.post('/', auth, multer, addSauce)
-router.put('/:id ', auth, multer, updateSauce)
+router.put('/:id', auth, multer, updateSauce)
 router.delete('/:id', auth, deleteSauce)
 router.get('/:id', auth, getOneSauce)
 router.get('/', auth, getAllSauces)
+router.post('/:id/like', auth, likeOneSauce)
 
 module.exports = router
