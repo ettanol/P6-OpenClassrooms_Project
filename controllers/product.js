@@ -17,7 +17,6 @@ exports.addSauce = async (req, res, next) => {
    .catch(error => res.status(400).json({error}))
 }
 
-// 629f18cd585351f20ca33f87
 exports.updateSauce = async (req, res, next)=> {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
@@ -67,7 +66,6 @@ exports.likeOneSauce = async (req, res, next) => {
         let add = (user) => {
             countOfUsersLiked = user.push(req.body.userId)
             user == usersLiked? product.likes++ : product.dislikes++
-            return product
         }
         let remove = (user) => {
             let index = user.indexOf(req.body.userId)
