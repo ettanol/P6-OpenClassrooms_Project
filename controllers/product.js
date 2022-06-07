@@ -17,13 +17,13 @@ exports.addSauce = async (req, res, next) => {
    .catch(error => res.status(400).json({error}))
 }
 
-
+// 629f18cd585351f20ca33f87
 exports.updateSauce = async (req, res, next)=> {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body.sauce}
-    Sauce.updateOne({_id: req.params.id}, { ...sauceObject, _id: req.params.id})
+    Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id})
     .then(() => res.status(200).json({message: 'sauce modifiée'}))
     .catch(error => res.status(400).json({ error }))
 }
@@ -63,54 +63,37 @@ exports.likeOneSauce = async (req, res, next) => {
     .then(product => {
         let usersLiked = product.usersLiked
         let usersDisliked = product.usersDisliked
+
         let add = (user) => {
-            if(user == 'usersLiked') {
-                countOfUsersLiked = user.push(req.body.userId)
-                product.likes++
-                return product.likes
-            } else {
-                countOfUsersDisliked = user.push(req.body.userId)
-                product.dislikes++
-                return product.dislikes
-            }
+            countOfUsersLiked = user.push(req.body.userId)
+            user == usersLiked? product.likes++ : product.dislikes++
+            return product
         }
         let remove = (user) => {
-            if(user == 'usersLiked') {
-                let index = product.user.indexof("userId")
-                countOfUsersLiked = user.splice(index, 1)
-                product.likes--
-                return product.likes
-            } else if(user == 'usersDisliked'){
-                let index = product.user.indexof("userId")
-                countOfUsersDisliked = user.splice(index, 1)
-                product.dislikes--
-                return product.dislikes
+            let index = user.indexOf(req.body.userId)
+            if(user == usersLiked){
+                user.splice(index, 1)
+                return product.likes--
+            } else {
+                user.splice(index, 1)
+                return product.dislikes--
             }
         }
-        
+
         if(like == -1){
-            if (!usersDisliked.includes(req.body.userId)){
-                add(usersDisliked)
-            } 
-            if(usersLiked.includes(req.body.userId)){
-                remove(usersLiked)
-            }
+            !usersDisliked.includes(req.body.userId)? 
+            add(usersDisliked) : remove(usersLiked)
         } else if(like == 0) {
             if(usersDisliked.includes(req.body.userId)) {
-                remove(usersDisliked)
-            }
-            if(usersLiked.includes(req.body.userId)) {
+                remove(usersDisliked) 
+            } else if (usersLiked.includes(req.body.userId)){
                 remove(usersLiked)
             }
         } else {
-            if (usersDisliked.includes(req.body.userId)){
-                remove(usersDisliked)
-            } 
-            if(usersLiked.includes(req.body.userId)){
-                add(usersLiked)
-            }
+            usersDisliked.includes(req.body.userId)?
+                remove(usersDisliked) : add(usersLiked)
         }
-        Sauce.updateOne({_id: req.params.id}, { ...product, _id: req.params.id})
+        Sauce.updateOne({ _id: req.params.id}, { product, _id: req.params.id})
         .then(() => res.status(200).json({message: 'avis ajouté'}))
         .catch(error => res.status(400).json({ error }))
     })
