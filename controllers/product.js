@@ -21,7 +21,7 @@ exports.updateSauce = async (req, res, next)=> {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body.sauce}
+    } : { ...req.body}
     Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id})
     .then(() => res.status(200).json({message: 'sauce modifiée'}))
     .catch(error => res.status(400).json({ error }))
@@ -54,7 +54,8 @@ exports.getAllSauces = async (req, res, next) => {
 
 
 exports.likeOneSauce = async (req, res, next) => {
-    let like = req.body.like
+    let body = req.body
+    let like = body.like
     let countOfUsersLiked = 0
     let countOfUsersDisliked = 0
     
@@ -91,7 +92,8 @@ exports.likeOneSauce = async (req, res, next) => {
             usersDisliked.includes(req.body.userId)?
                 remove(usersDisliked) : add(usersLiked)
         }
-        Sauce.updateOne({ _id: req.params.id}, { product, _id: req.params.id})
+        body = product
+        Sauce.updateOne({ _id: req.params.id}, { body, _id: req.params.id})
         .then(() => res.status(200).json({message: 'avis ajouté'}))
         .catch(error => res.status(400).json({ error }))
     })
