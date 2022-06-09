@@ -1,8 +1,11 @@
 # P6-OpenClassrooms_Project
 
-## Ressources
 L'API permet la **création** d'un compte, ainsi que le **partage** et l'ajout de **like** ou de **dislikes** pour différentes **sauces piquantes**.
 Chaque utilisateur peut mettre en ligne une sauce, et les différents utilisateurs pourront ajouter leur avis sur la sauce en question. Les sauces sont définies par leur nom, l'entreprise les ayant crée, une description, le piment principal ainsi que la chaleur transmise. Une image peut être ajoutée.
+
+## Ressources
+User
+Sauce
 
 
 ## Routes
@@ -35,15 +38,17 @@ Chaque utilisateur peut mettre en ligne une sauce, et les différents utilisateu
 
 Pour l'ajout d'une sauce 
 ```
-{
+sauce = {
   "name": "Hot Sauce",
   "manufacturer": "spicy factory",
   "description": "Have a taste of the hottest sauce!",
   "mainPepper": "Carolina Reaper",
   "heat": 10,
   "userId": "6788HHYFHGHH589H7HH456"
-}
+},
+image = (binary)
 ```
+
 
 ## Exemple de réponse
 ajout d'une sauce : 
