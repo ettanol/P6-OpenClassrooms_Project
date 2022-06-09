@@ -34,7 +34,7 @@ exports.deleteSauce = async (req, res, next) => {
         fs.unlink(`images/${filename}`, ()=> {
             Sauce.deleteOne({ _id: req.params.id})
             .then(()=> res.status(200).json({ message: 'sauce supprimée!' }))
-            .catch(error => res.status(400).json( {error}))
+            .catch(error => res.status(400).json({error}))
         })
     })
     .catch(error => res.status(500).json({error}))
@@ -54,22 +54,19 @@ exports.getAllSauces = async (req, res, next) => {
 
 
 exports.likeOneSauce = async (req, res, next) => {
-    let body = req.body
-    let like = body.like
-    let countOfUsersLiked = 0
-    let countOfUsersDisliked = 0
-    
+    let like = req.body.like
+    let userId = req.body.userId
     Sauce.findOne({ _id: req.params.id})
     .then(product => {
         let usersLiked = product.usersLiked
         let usersDisliked = product.usersDisliked
 
         let add = (user) => {
-            countOfUsersLiked = user.push(req.body.userId)
+            user.push(userId)
             user == usersLiked? product.likes++ : product.dislikes++
         }
         let remove = (user) => {
-            let index = user.indexOf(req.body.userId)
+            let index = user.indexOf(userId)
             if(user == usersLiked){
                 user.splice(index, 1)
                 return product.likes--
@@ -80,16 +77,16 @@ exports.likeOneSauce = async (req, res, next) => {
         }
 
         if(like == -1){
-            !usersDisliked.includes(req.body.userId)? 
+            !usersDisliked.includes(userId)? 
             add(usersDisliked) : remove(usersLiked)
         } else if(like == 0) {
-            if(usersDisliked.includes(req.body.userId)) {
+            if(usersDisliked.includes(userId)) {
                 remove(usersDisliked) 
-            } else if (usersLiked.includes(req.body.userId)){
+            } else if (usersLiked.includes(userId)){
                 remove(usersLiked)
             }
         } else {
-            usersDisliked.includes(req.body.userId)?
+            usersDisliked.includes(userId)?
                 remove(usersDisliked) : add(usersLiked)
         }
         product.save()
