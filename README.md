@@ -15,8 +15,8 @@ Chaque utilisateur peut mettre en ligne une sauce, et les différents utilisateu
     - GET: /api/sauces => renvoie un tableau de toutes les sauces de la base de donnée
     - GET: /api/sauces/:id => renvoie la sauce avec l'id fourni
     - POST: /api/sauces => ajoute une nouvelle sauce à la base de donnée,
-                        initialise les likes, dislikes, ainsi que les tableau                         usersLiked et usersDisliked
-                        si une image est ajoutée, l'image est stockée sur le                         serveur
+                        initialise les likes, dislikes, ainsi que les tableau                         usersLiked et usersDisliked.
+                        Si une image est ajoutée, l'image est stockée sur le                         serveur
     - PUT: /api/sauces/:id => met à jour la sauce,
                           renvoie une nouvelle imageUrl si une image est                               ajoutée
     - DELETE : /api/sauces/:id => supprime la sauce de la base de donnée, et                                   l'image de la base de donnée
