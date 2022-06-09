@@ -92,8 +92,7 @@ exports.likeOneSauce = async (req, res, next) => {
             usersDisliked.includes(req.body.userId)?
                 remove(usersDisliked) : add(usersLiked)
         }
-        body = product
-        Sauce.updateOne({ _id: req.params.id}, { body, _id: req.params.id})
+        product.save()
         .then(() => res.status(200).json({message: 'avis ajouté'}))
         .catch(error => res.status(400).json({ error }))
     })
