@@ -4,8 +4,8 @@ L'API permet la **création** d'un compte, ainsi que le **partage** et l'ajout d
 Chaque utilisateur peut mettre en ligne une sauce, et les différents utilisateurs pourront ajouter leur avis sur la sauce en question. Les sauces sont définies par leur nom, l'entreprise les ayant crée, une description, le piment principal ainsi que la chaleur transmise. Une image peut être ajoutée.
 
 ## Ressources
-User
-Sauce
+- User
+- Sauce
 
 
 ## Routes
