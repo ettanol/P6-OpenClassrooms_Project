@@ -13,6 +13,6 @@ module.exports = async (req, res, next) => {
             next()
             }
         } catch {
-            res.status(401).json({ error: new Error('Requête invalide') })
+            res.status(401).json({ error })
         }
 }
