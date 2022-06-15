@@ -4,17 +4,24 @@ const fs = require('fs')
 exports.addSauce = async (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce)
     delete sauceObject._id
-   const product = new Sauce({
+    if(sauceObject.name.includes("<")
+        || sauceObject.manufacturer.includes("<")
+        || sauceObject.description.includes("<")
+        || sauceObject.mainPepper.includes("<")
+    ) {
+        return res.status(403).json({error: "Requête refusée"}) //to protect from scripts being added
+    }
+    const product = new Sauce({
         ...sauceObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         likes: 0,
         dislikes: 0,
         usersLiked: [],
         usersDisliked: [],
-   })
-   product.save()
-   .then(() => res.status(201).json({message: 'objet enregistré'}))
-   .catch(error => res.status(400).json({error}))
+    })
+    product.save()
+    .then(() => res.status(201).json({message: 'objet enregistré'}))
+    .catch(error => res.status(400).json({error}))
 }
 
 exports.updateSauce = async (req, res, next)=> {
