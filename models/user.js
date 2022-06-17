@@ -11,6 +11,12 @@ const userSchema = mongoose.Schema({
     password : {
         type: String,
         required : true,
+    },
+    numberOfAttempts: {
+        type: Number,
+    },
+    numberOfBlocks: {
+        type: Number,
     }
 })
 
