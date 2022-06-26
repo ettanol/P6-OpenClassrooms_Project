@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "install": "nodemon server.js"
   },
   "author": "Ettanol",
   "license": "ISC",

@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
     email : {
         type: String,
         required : true,
-        unique : true,
+        unique : true, //users can't add the same adress to the server
     }, 
     password : {
         type: String,

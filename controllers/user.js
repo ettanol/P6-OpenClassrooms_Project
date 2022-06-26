@@ -15,7 +15,7 @@ exports.signup = async (req, res, next) => {
     .has().lowercase(1, 'le mot de passe doit contenir au moins une minuscule') // Must have lowercase letters
     .has().digits(2, 'le mot de passe doit contenir au moins deux chiffres') // Must have at least 2 digits
     .has().not().spaces() // Should not have spaces
-    .is().not().oneOf(['Passw0rd', 'Password123', 'Password', 'Motdepasse', '12345678', '123456789']) // Blacklist these values
+    .is().not().oneOf(['Passw0rd', 'Password123', 'Motdepasse', '12345678', '123456789']) // Blacklist these values
     if(passwordSchema.validate(req.body.password)){
         await bcrypt.hash(req.body.password, parseInt(process.env.saltRounds)) //creates a hash for the password
         .then(hash => { //get the hash and put it in the user object
@@ -67,8 +67,8 @@ exports.login= async (req, res, next) => {
                         minutesBlocked = 24 * 60 * 60 * 1000 //24 hours (might be updated to infinite)
                         break
                 }
-                    const currentTime = new Date().getTime() //get the time of the request
-                    if((currentTime - (timeOfBlock + minutesBlocked)) > 0) { //if the user tries after the amount of time provided below
+                const currentTime = new Date().getTime() //get the time of the request
+                if((currentTime - (timeOfBlock + minutesBlocked)) > 0) { //if the user tries after the amount of time provided below
                     attempts++
                     if(attempts > 4) { //if there's too many attempts
                         timeOfBlock = new Date().getTime() //set a time from which the user will be blocked
